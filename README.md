@@ -6,12 +6,13 @@
 > - Fragestellung und Hypothese
 > - Versuchs- bzw. Simulationsaufbau sowie Annahmen über Umweltfaktoren
 > - Mathematischer Aufbau der Simulation
-> - Ergebnisse an Hand von Daten beschreiben
-> - Daten visualisiert
+> - Ergenisse mathematisch beschreiben
+> - Die idealen Parameter für den Golfball-Abschlag
 > - Schlusswort
 
 ## Fragestellung und Hypothese
 Die Leitfrage dieser Arbeit ist, herauszufinden, wie Impuls und Kräfte wirken beim Abschlagen eines Golfballes, sowie mit welchem Winkel dieser am weitesten pro angewandte Kraft fliegt. Dazu konzentriere ich mich in der Simulation auf die Flugbahn des Golfballs mit verschiedenen Parametern. Die Hypothese ist, dass es zum sogenannten Stoß kommt und der Impuls des Golfschlägers auf den Ball übertragen wird. Darauf hin wirken verschiedene Kräfte sowie Impulse gegeneinander, die es zu berechnen und simulieren gilt.
+Ich vermute, dass die größte Geschwindigkeit die weiteste Flugbahn ergibt, sowie der Winkel von 45° unter auslassen des Luftwiederstandes die größte Flugbahn ergibt.
 
 ## Versuchs- bzw. Simulationsaufbau sowie Annahmen über Umweltfaktoren
 
@@ -55,3 +56,62 @@ $$ F_{Gewichtskraft} = m · g = m · 9,81m/s^2$$
 - Nach dem Stoß ist die Richtung der Geschwindigkeit des Golfballs in einer Linie mit Schnittpunkt (Schläger) und Mittelpunkt des Golfballs.
 - Die Geschwindigkeit des Golfballs nach dem Stoß wird einmalig anhand der oben genannten Formel aus der Geschwindigkeit des Schlägers berechnet.
 - Simuliert wird die Flugkurve des Golfballs mithilfe der oben genannten Formeln anhand der gegeneinander wirkenden Kräfte und Impulse.
+
+## Ergebnisse an Hand von Daten beschreiben
+
+Anhand einer einfachen Simulation konnte ich bestätigen, dass die Formel 
+$$ s_{Wurfweite} = (v^2 / g) · sin(2·\alpha) $$
+stimmt. 
+
+In meiner Simulation habe ich in einer Schleife solange t erhöht (die Zeit laufen lassen), bis der Golfball den Boden berührt. 
+
+    winkel = 45
+    speed = 100 # geschwindigkeit in m/s  
+
+    y = src.winkel.vy(speed, winkel)
+    vx = src.winkel.vx(speed, winkel)
+
+    i = 1
+    while (i * vy - 0.5 * 9.81 * i**2) > 0:
+        i += 0.01
+    
+    print(i)
+    print(vx * i)
+
+dabei kam heraus, dass der Golfball nach 14,42 Sekunden den Boden bei der Marke 1019,64 Meter berührt.
+Die folgende Funktion (siehe oben, hier in Python umgewandelt) kommt auf das gleiche Ergebnis
+
+    print((speed * speed) / 9.81 * math.sin(math.radians(2 * winkel))) # 1019.367991845056
+
+Ausgelassen ist hier der Luftwiederstand, jedoch sind Formeln vorbereitet und die Funktion wird vorraussichtlich später noch implementiert.
+
+## Die idealen Parameter für den Golfball-Abschlag
+Mit dem folgenden Code konnte ich die Idealen Parameter herausfinden. Diese liegen bei einem Winkel von 45° und einer Geschhwindigkeit von 60 m/s.
+
+    import src.winkel
+    import src.gwkraefte
+    import numpy as np
+    import math
+
+    weite = np.zeros((90, 20))
+
+    for winkel in range(0, 90, 1):
+        for speed in range(40, 60, 1):
+            vy = src.winkel.vy(speed, winkel)
+            vx = src.winkel.vx(speed, winkel)
+
+            i = 1
+            while (i * vy - 0.5 * 9.81 * i**2) > 0:
+                i += 0.01
+            
+            l = vx * i
+
+            weite[winkel, speed-40] = l
+
+    print(np.unravel_index(np.argmax(weite), weite.shape))
+    print(weite[np.unravel_index(np.argmax(weite), weite.shape)])
+
+## Schlusswort
+Der Geschwindigkeitswert ist nicht überraschend, da hier die größte Kraft wirkt. Allerdings konnte ich mit meiner Simulation nachweisen, dass der ideale Winkel bei 45° liegt.
+
+Meine Hypothese bezüglich der Parameter wurde bestätigt. Die Simulation zeigt, dass der ideale Winkel bei 45° liegt und die Geschwindigkeit bei 60 m/s (Maximalwert).
