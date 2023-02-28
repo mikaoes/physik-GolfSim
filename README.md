@@ -15,7 +15,7 @@ Die Leitfrage dieser Arbeit ist, herauszufinden, wie Impuls und Kräfte wirken b
 
 ## Versuchs- bzw. Simulationsaufbau sowie Annahmen über Umweltfaktoren
 
-Für den Aufbau platzieren wir einen Golfball der Größe 3 cm auf einem Tee von 8 Zentimetern Höhe. Der Schläger wird als eine Strecke der Länge 100 Zentimeter dargestellt.
+Für den Aufbau platzieren wir einen Golfball der Größe 3 cm (m = 50 Gramm) auf einem Tee von 8 Zentimetern Höhe. Der Schläger wird als eine Strecke der Länge 100 Zentimeter dargestellt (m = 500 Gramm).
 
 Um den Golfball abzuschlagen, bewegen wir den Schläger auf ihn zu in einer (hier vereinfachten) geradlinigen gleichförmigen Bewegung. Wir nehmen an, dass auf den Schläger zum Zeitpunkt direkt vor dem Abschlag keine Kräfte wirken, daher der Impuls des Schlägers zu diesem Zeitpunkt konstant.
 
